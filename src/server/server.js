@@ -1,7 +1,9 @@
 const express = require('express');
-const applicantController = require('./controllers/ApplicantController');
+
 const app = express();
-const port = 1337;
+require('dotenv').config();
+const applicantController = require('./controllers/applicantController');
+const port = process.env.PORT || 1337;
 
 app.use(express.json());
 
@@ -11,8 +13,7 @@ app.get('/', (req, res) => {
 
 app.post('/applicant', applicantController.saveApplicant,
   (req, res) => {
-    res.json(res.locals);
-    console.log(res.locals);
+    res.send('success');
   });
 
 app.listen(port, () => {
