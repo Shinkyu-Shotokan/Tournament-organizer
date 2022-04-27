@@ -14,7 +14,14 @@ app.get('/', (req, res) => {
 app.post('/applicant', applicantController.saveApplicant,
   (req, res) => {
     res.send('success');
-  });
+  }
+);
+
+app.get('/applicant', applicantController.getAllApplicants,
+  (req, res) => {
+    res.send(res.locals);
+  }
+);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

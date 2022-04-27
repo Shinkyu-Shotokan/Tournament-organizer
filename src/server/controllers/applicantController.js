@@ -21,4 +21,14 @@ applicantController.saveApplicant = async (req, res, next) => {
   next();
 }
 
+applicantController.getAllApplicants = async (req, res, next) => {
+  try {
+    const results = await models.Applicant.find();
+    res.locals.applicants = results;
+  } catch (e) {
+    console.log('Error in getAllApplicants, ' + e);
+  }
+  next();
+}
+
 module.exports = applicantController;
