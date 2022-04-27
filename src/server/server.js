@@ -13,13 +13,31 @@ app.get('/', (req, res) => {
 
 app.post('/applicant', applicantController.saveApplicant,
   (req, res) => {
-    res.send('success');
+    res.json({ id: res.locals.results.id });
   }
 );
 
 app.get('/applicant', applicantController.getAllApplicants,
   (req, res) => {
     res.send(res.locals);
+  }
+);
+
+app.get('/applicant/:id', applicantController.getApplicant,
+  (req, res) => {
+    res.send(res.locals);
+  }
+);
+
+app.put('/applicant/:id', applicantController.editApplicant,
+  (req, res) => {
+    res.send(res.locals);
+  }
+);
+
+app.delete('/applicant/:id', applicantController.deleteApplicant,
+  (req, res) => {
+    res.status(200).send('Successfully deleted entry');
   }
 );
 
