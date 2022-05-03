@@ -39,14 +39,24 @@ const App = () => {
       .then(res => {
         if (res.status === 200) setStudents(students.filter((student) => student._id !== id));
       });
-
-
   }
 
   const addStudent = (student) => {
-    const id = Math.floor(Math.random() * 10000) + 1;
-    const newStudent = { id, ...student };
-    setStudents([...students, newStudent]);
+    console.log(JSON.stringify(student));
+    fetch(host + '/applicant', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(student),
+    })
+      .then(res => res.json())
+      .then(res => {
+        const newStudent = { id: res.id, ...student };
+        setStudents([...students, newStudent]);
+      })
+
   }
 
   const toggleShowAdd = () => { setShowAddStudent(!showAddStudent) };

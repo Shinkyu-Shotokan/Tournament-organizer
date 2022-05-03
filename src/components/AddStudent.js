@@ -1,21 +1,23 @@
 import { useState } from 'react';
 
 function AddStudent({ onToggle, onAdd }) {
-const [name, setName] = useState('');
-const [rank, setRank] = useState('0');
-const [age, setAge] = useState(1);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [rank, setRank] = useState('0');
+  const [age, setAge] = useState(1);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (!name) {
-      alert('Please add a name');
+    if (!firstName || !lastName) {
+      alert('Please add a first and last name');
       return;
     }
 
-    onAdd({ name, rank, age });
+    onAdd({ firstName, lastName, rank, age });
 
-    setName('');
+    setFirstName('');
+    setLastName('');
     setRank('0');
     setAge(1);
     onToggle();
@@ -24,12 +26,16 @@ const [age, setAge] = useState(1);
   return (
     <form className='add-form' onSubmit={onSubmit}>
       <div className='form-control'>
-        <label>Name</label>
-        <input type='text' placeholder='Name' maxLength="30" value={name} onChange={(e) => setName(e.target.value)}/>
+        <label>First Name</label>
+        <input type='text' placeholder='First Name' maxLength="30" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+      </div>
+      <div className='form-control'>
+        <label>Last Name</label>
+        <input type='text' placeholder='Last Name' maxLength="30" value={lastName} onChange={(e) => setLastName(e.target.value)} />
       </div>
       <div className='form-control'>
         <label>Age</label>
-        <input type='number' min='1' max='100' value={age} onChange={(e) => setAge(e.target.value)}/>
+        <input type='number' min='1' max='100' value={age} onChange={(e) => setAge(e.target.value)} />
       </div>
       <div className='form-control'>
         <label>Rank</label>
@@ -56,7 +62,7 @@ const [age, setAge] = useState(1);
           <option value="19">10th Dan</option>
         </select>
       </div>
-      <input type='submit' value='Save Student' className='btn btn-block'/>
+      <input type='submit' value='Save Student' className='btn btn-block' />
     </form>
   )
 }

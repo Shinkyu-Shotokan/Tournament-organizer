@@ -4,6 +4,7 @@ const applicantController = {};
 
 applicantController.saveApplicant = async (req, res, next) => {
   try {
+    console.log(req);
     const {
       firstName,
       lastName,
