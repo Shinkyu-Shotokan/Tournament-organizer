@@ -3,36 +3,44 @@ import Students from './Students';
 import AddStudent from './AddStudent';
 import download from 'downloadjs';
 import promotionalCertificate from './promotionalCertificate.pdf'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PDFDocument, StandardFonts } from "pdf-lib";
 
 const App = () => {
+  const host = 'http://localhost:1337';
   const [showAddStudent, setShowAddStudent] = useState(false);
-  const [students, setStudents] = useState([{
-    id: 1,
-    name: 'Tony Hawk',
-    age: 53,
-    rank: '15'
-  },
-  {
-    id: 2,
-    name: 'Bob Burnquist',
-    age: 45,
-    rank: '14'
-  },
-  {
-    id: 3,
-    name: 'Nyjah Huston',
-    age: 27,
-    rank: '12'
-  }])
+  const [students, setStudents] = useState([]);
 
-  const ranks = ["10th Kyu","9th Kyu","8th Kyu","7th Kyu","6th Kyu","5th Kyu","4th Kyu","3rd Kyu","2nd Kyu",
-    "1st Kyu","1st Dan","2nd Dan","3rd Dan","4th Dan","5th Dan","6th Dan","7th Dan","8th Dan","9th Dan","10th Dan"]
+  const ranks = ["10th Kyu", "9th Kyu", "8th Kyu", "7th Kyu", "6th Kyu", "5th Kyu", "4th Kyu", "3rd Kyu", "2nd Kyu",
+    "1st Kyu", "1st Dan", "2nd Dan", "3rd Dan", "4th Dan", "5th Dan", "6th Dan", "7th Dan", "8th Dan", "9th Dan", "10th Dan"]
+
+  useEffect(() => {
+    const getAllStudents = () => {
+      console.log('getAllStudents!!!!!!!!!!!!!!!!!!!!');
+      fetch(host + '/applicant')
+        .then(res => res.json())
+        .then(students => {
+          setStudents(students.applicants);
+          console.log('test');
+        });
+    }
+
+    getAllStudents();
+    return;
+  }, [students.length]);
 
   //delete student
   const deleteStudent = (id) => {
-    setStudents(students.filter((student) => student.id !== id));
+    console.log(id);
+
+    fetch(host + '/applicant/' + id, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        if (res.status === 200) setStudents(students.filter((student) => student._id !== id));
+      });
+
+
   }
 
   const addStudent = (student) => {
@@ -41,7 +49,7 @@ const App = () => {
     setStudents([...students, newStudent]);
   }
 
-  const toggleShowAdd = () => {setShowAddStudent(!showAddStudent)};
+  const toggleShowAdd = () => { setShowAddStudent(!showAddStudent) };
 
   const createCertificatePDF = async (student) => {
 
@@ -50,7 +58,7 @@ const App = () => {
   const generateCertificates = async (students) => {
     let studentPDFs = [];
 
-    for (let student in students){
+    for (let student in students) {
       studentPDFs.push()
     }
   }
@@ -97,7 +105,7 @@ const App = () => {
 
     let sensei = "Sue Miller, Sensei";
 
-    if (student.age > 10){
+    if (student.age > 10) {
       sensei = "Nobu Kaji, Sensei";
     }
 
@@ -114,11 +122,11 @@ const App = () => {
   }
 
   return (
-      <div className='container'>
-          <Header onToggle={toggleShowAdd} showAdd={showAddStudent}/>
-          {showAddStudent && <AddStudent onToggle={toggleShowAdd} onAdd={addStudent}/>}
-          {!showAddStudent && (students.length > 0 ? <Students students={students} ranks={ranks} onGenerate={generateCertificate} onDelete={deleteStudent}/> : 'nothing')}
-      </div>
+    <div className='container'>
+      <Header onToggle={toggleShowAdd} showAdd={showAddStudent} />
+      {showAddStudent && <AddStudent onToggle={toggleShowAdd} onAdd={addStudent} />}
+      {!showAddStudent && (students.length > 0 ? <Students students={students} ranks={ranks} onGenerate={generateCertificate} onDelete={deleteStudent} /> : 'nothing')}
+    </div>
   )
 }
 

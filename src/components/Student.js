@@ -4,8 +4,8 @@ const Student = ({ student, onDelete, onGenerate, ranks }) => {
 
   return (
     <div className={`student`}>
-      <h3>{student.name} <FaTimes style={{ color:'#dbd8e3', cursor: 'pointer' }}
-        onClick={() => onDelete(student.id)}/>
+      <h3>{student.firstName + ' ' + student.lastName} <FaTimes style={{ color: '#dbd8e3', cursor: 'pointer' }}
+        onClick={() => onDelete(student._id)} />
       </h3>
       <div className='header'>
         <div>
