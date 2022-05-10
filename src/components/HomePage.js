@@ -59,20 +59,7 @@ const HomePage = () => {
       })
   }
 
-  const editStudent = (student) => {
-    fetch(host + '/applicant/' + student._id, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(student),
-    })
-      .then(res => res.json())
-      .then(res => {
-        setStudents(students);
-      })
-  }
+
 
 
   const toggleShowAdd = () => { setShowAddStudent(!showAddStudent) };
@@ -151,7 +138,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className='container'>
+    <div>
       <Header onToggle={toggleShowAdd} showAdd={showAddStudent} />
       {showAddStudent && <AddStudent onToggle={toggleShowAdd} onAdd={addStudent} />}
       {!showAddStudent && (students.length > 0 ? <Students students={students} ranks={ranks} onGenerate={generateCertificate} onDelete={deleteStudent} /> : 'nothing')}

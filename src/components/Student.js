@@ -13,11 +13,11 @@ const Student = ({ student, onDelete, onGenerate, ranks }) => {
           <p>{'Rank: ' + ranks[student.rank]}</p>
         </div>
         <div>
-          <button className='btn' onClick={() => onGenerate(student)}>Edit Student</button>
+          <a href={`/editApplicant/${student._id}`}><button className='btn'>Edit Student</button></a>
           <button className='btn' onClick={() => onGenerate(student)}>Generate Certificate</button>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
