@@ -1,30 +1,27 @@
 import React from "react";
 import PropTypes from 'prop-types'
 
-const Header = ({ onToggle, showAdd }) => {
-    return (
-            <header className='header'>
-                <h1>{showAdd ? 'Add Student' : 'Certificate Maker'}</h1>
-                <div>
-                    {!showAdd && <button onClick={onToggle} style={{ backgroundColor: 'gray' }} className='btn'>
-                        Generate All Certificates
-                    </button>}
-                    <button onClick={onToggle} style={{ backgroundColor: 'gray' }} className='btn'>
-                        {showAdd ? 'Cancel' : 'Add Student'}
-                    </button>
-                </div>
-            </header>
-    )
-}
+const Header = ({ title, buttonData }) => {
+  const buttons = [];
+  for (let data of buttonData) {
+    buttons.push(<button onClick={data.onClick} style={{ backgroundColor: 'gray' }} className='btn'>
+      {data.title}
+    </button>);
+  }
 
-Header.defaultProps = {
-    title:"Promotional Certificate Generator",
+  return (
+    <header className='header'>
+      <h1>{title}</h1>
+      <div>
+        {buttons}
+      </div>
+    </header>
+  )
 }
 
 Header.propTypes = {
-    title: PropTypes.string,
-    color: PropTypes.string,
-    conClick: PropTypes.func,
+  title: PropTypes.string,
+  buttonData: PropTypes.array,
 }
 
 export default Header

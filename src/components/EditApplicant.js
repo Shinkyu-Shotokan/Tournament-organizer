@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import Header from './NewHeader';
+import Header from './Header';
 
 function EditApplicant() {
   const [firstName, setFirstName] = useState('');
@@ -28,8 +28,8 @@ function EditApplicant() {
     return;
   }, []);
 
-  const editStudent = (student) => {
-    fetch(host + '/applicant/' + params.id, {
+  const editStudent = async (student) => {
+    await fetch(host + '/applicant/' + params.id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

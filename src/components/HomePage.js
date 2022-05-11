@@ -1,16 +1,15 @@
 import Header from './Header';
 import Students from './Students';
-import AddStudent from './AddStudent';
 import download from 'downloadjs';
 import promotionalCertificate from './promotionalCertificate.pdf'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { PDFDocument, StandardFonts } from "pdf-lib";
 
 const HomePage = () => {
   const host = 'http://localhost:1337';
-  const [showAddStudent, setShowAddStudent] = useState(false);
-  const [showEditStudent, setShowEditStudent] = useState(false);
   const [students, setStudents] = useState([]);
+  const navigate = useNavigate();
 
   const ranks = ["10th Kyu", "9th Kyu", "8th Kyu", "7th Kyu", "6th Kyu", "5th Kyu", "4th Kyu", "3rd Kyu", "2nd Kyu",
     "1st Kyu", "1st Dan", "2nd Dan", "3rd Dan", "4th Dan", "5th Dan", "6th Dan", "7th Dan", "8th Dan", "9th Dan", "10th Dan"]
@@ -41,31 +40,6 @@ const HomePage = () => {
         if (res.status === 200) setStudents(students.filter((student) => student._id !== id));
       });
   }
-
-  const addStudent = (student) => {
-    console.log(JSON.stringify(student));
-    fetch(host + '/applicant', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(student),
-    })
-      .then(res => res.json())
-      .then(res => {
-        const newStudent = { id: res.id, ...student };
-        setStudents([...students, newStudent]);
-      })
-  }
-
-
-
-
-  const toggleShowAdd = () => { setShowAddStudent(!showAddStudent) };
-
-  const toggleShowEdit = () => { setShowEditStudent(!showEditStudent) };
-
 
   const createCertificatePDF = async (student) => {
 
@@ -137,11 +111,19 @@ const HomePage = () => {
     download(pdfBytes, `${student.name}`, "application/pdf");
   }
 
+  const addApplicant = () => {
+    navigate('/addApplicant');
+  };
+
+  const buttonData = [{
+    title: 'Add Applicant',
+    onClick: addApplicant
+  }];
+
   return (
     <div>
-      <Header onToggle={toggleShowAdd} showAdd={showAddStudent} />
-      {showAddStudent && <AddStudent onToggle={toggleShowAdd} onAdd={addStudent} />}
-      {!showAddStudent && (students.length > 0 ? <Students students={students} ranks={ranks} onGenerate={generateCertificate} onDelete={deleteStudent} /> : 'nothing')}
+      <Header title='All Applicants' buttonData={buttonData} />
+      {students.length > 0 ? <Students students={students} ranks={ranks} onGenerate={generateCertificate} onDelete={deleteStudent} /> : 'nothing'}
     </div>
   )
 }
