@@ -4,15 +4,36 @@ const applicantController = {};
 
 applicantController.saveApplicant = async (req, res, next) => {
   try {
-    console.log(req);
     const {
       firstName,
       lastName,
+      dojo,
+      gender,
+      birthdate,
       age,
-      rank
+      weight,
+      feet,
+      inches,
+      years,
+      beltColor,
+      rank,
+      kata,
+      kumite,
+      teamKata,
+      weapons,
+      kataDivision,
+      kumiteDivision,
+      teamKataDivision,
+      weaponsDivision,
+      teamMembers,
+      amount,
+      payment,
+      owed,
+      refund
     } = req.body;
 
-    const newApplicant = new models.Applicant({ firstName, lastName, age, rank });
+    // const newApplicant = new models.Applicant({ firstName, lastName, age, rank });
+    const newApplicant = new models.Applicant(req.body);
 
     res.locals.results = await newApplicant.save();
 

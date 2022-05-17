@@ -15,8 +15,29 @@ const Schema = mongoose.Schema;
 const applicantSchema = new Schema({
   firstName: String,
   lastName: String,
+  dojo: String,
+  gender: String,
+  birthdate: Date,
   age: Number,
-  rank: String
+  weight: Number,
+  feet: Number,
+  inches: Number,
+  years: Number,
+  beltColor: String,
+  rank: String,
+  kata: Boolean,
+  kumite: Boolean,
+  teamKata: Boolean,
+  weapons: Boolean,
+  kataDivision: String,
+  kumiteDivision: String,
+  teamKataDivision: String,
+  weaponsDivision: String,
+  teamMembers: String,
+  amount: Number,
+  payment: String,
+  owed: Number,
+  refund: Number
 });
 
 const Applicant = mongoose.model('applicant', applicantSchema);
